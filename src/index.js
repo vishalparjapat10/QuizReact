@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import './assets/style.css';
 import quizService from './quizService';
 import QuestionBox from "./components/QuestionBox";
+import Result from "./components/Result";
 
 class QuizBee extends Component{
 
@@ -28,6 +29,14 @@ class QuizBee extends Component{
             responses:this.state.responses < 5 ? this.state.responses+1:5
         })
     }
+    playAgain = () =>{
+        this.getQuestions();
+        this.setState({
+            score:0,
+            responses:0
+        })
+    }
+
     componentDidMount(){
         // this function will be called when this component will be load for the first time
         this.getQuestions();
@@ -40,7 +49,7 @@ class QuizBee extends Component{
                     <QuestionBox question={question} options={answers} key={questionId} selected={answer => this.computeAnswer(answer,correct)}/>
                 ))}
 
-                {this.state.responses === 5 ?(<h2>{this.state.score}</h2>):null}
+                {this.state.responses === 5 ?(<Result score={this.state.score} playAgain={this.playAgain}/>):null}
             </div>
         );
     }
